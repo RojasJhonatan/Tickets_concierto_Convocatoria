@@ -28,7 +28,7 @@ CREATE TABLE tickets(
     estado VARCHAR(20) DEFAULT "pagado",
     FOREIGN KEY (evento_id) REFERENCES eventos(id)
         ON DELETE RESTRICT ON UPDATE CASCADE,
-
-
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+        ON DELETE RESTRICT ON UPDATE CASCADE
 
 )
