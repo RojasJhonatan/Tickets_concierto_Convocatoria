@@ -53,6 +53,7 @@
         input[type="text"],
         input[type="number"],
         input[type="datetime-local"],
+        input[type="password"],
         textarea {
             padding: 11px 14px;
             font-size: 14px;
@@ -129,12 +130,16 @@
                 <input type="text" name="nombre" placeholder="Nombre completo" required>
             </div>
             <div class="form-group">
+                <label>Teléfono</label>
+                <input type="text" name="telefono" placeholder="+57..." required>
+            </div>
+            <div class="form-group">
                 <label>Email</label>
                 <input type="text" name="email" placeholder="ejemplo@email.com" required>
             </div>
             <div class="form-group">
-                <label>Teléfono</label>
-                <input type="text" name="telefono" placeholder="+57..." required>
+                <label>Contraseña</label>
+                <input type="password" name="password" placeholder="********" required>
             </div>
             <div class="form-group">
                 <label>Dirección</label>
@@ -142,7 +147,15 @@
             </div>
             <div class="form-group">
                 <label>Rol</label>
-                <input type="text" name="rol" placeholder="Administrador/Cliente" required>
+
+                <label>
+                    <input type="radio" name="rol" value="0" checked>
+                    Cliente
+                </label>
+                <label>
+                    <input type="radio" name="rol" value="1">
+                    Administrador
+                </label>
             </div>
 
             <div class="btn-group">

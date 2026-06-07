@@ -95,9 +95,8 @@ $result = $conn->query("SELECT * FROM usuarios");
         <h3><?= htmlspecialchars($fila['nombre']) ?></h3>
         <p><?= htmlspecialchars($fila['telefono']) ?></p>
         <p><?= htmlspecialchars($fila['email']) ?></p>
-        <p><?= htmlspecialchars($fila['contraseña']) ?></p>
         <p><?= htmlspecialchars($fila['direccion']) ?></p>
-        <p><?= htmlspecialchars($fila['rol']) ?></p>
+        <p><?= ($fila['rol'] == 1) ? 'Administrador' : 'Cliente'; ?></p>
         <a class="btn-delete" href="../controlador/eliminarUsuario.php?id=<?= $fila['id'] ?>">Eliminar</a>
       </div>
     <?php } ?>
