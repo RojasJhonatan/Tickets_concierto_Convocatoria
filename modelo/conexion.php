@@ -1,7 +1,7 @@
 <?php
 $host = "localhost";
-/* Javier 3307, Tatan 3330, Dylan ??? */
-$port = 3307;
+/* Javier 3307, Jhonatan 3330, Dylan ??? */
+$port = 3330;
 $user = "root";     // Usuario 
 $pass = "";         // Contraseña 
 $db = "MVC_Tickets_eventos";
