@@ -16,9 +16,11 @@ CREATE TABLE eventos (
 CREATE TABLE usuarios(
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
+    telefono VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
-    rol VARCHAR(20)
+    direccion VARCHAR(100) NOT NULL,
+    rol int(2) NOT NULL
 );
 
 /* Tabla para almacenar la información de los tickets */
