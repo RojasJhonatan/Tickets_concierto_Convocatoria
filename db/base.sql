@@ -1,6 +1,7 @@
 CREATE DATABASE IF NOT EXISTS MVC_Tickets_eventos;
 USE MVC_Tickets_eventos;
 
+/* Tabla para almacenar la información de los eventos */
 CREATE TABLE eventos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(100) NOT NULL,
@@ -11,14 +12,16 @@ CREATE TABLE eventos (
     precio_base INT(10) NOT NULL
 );
 
+/* Tabla para almacenar la información de los usuarios */
 CREATE TABLE usuarios(
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
     rol VARCHAR(20)
-)
+);
 
+/* Tabla para almacenar la información de los tickets */
 CREATE TABLE tickets(
     id INT AUTO_INCREMENT PRIMARY KEY,
     evento_id INT NOT NULL,
@@ -30,5 +33,4 @@ CREATE TABLE tickets(
         ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
         ON DELETE RESTRICT ON UPDATE CASCADE
-
-)
+);
