@@ -27,7 +27,8 @@
             <a href="vista/listaEventos.php" class="btn btn-eventos">Gestionar Eventos (Tu Módulo)</a>
             
             <a href="vista/listaTickets.php" class="btn btn-tickets">Gestionar Tickets</a>
-            <a href="vista/formularioCrearUsuario.php" class="btn btn-usuarios">Registro de Usuarios / Login</a>
+            <a href="vista/formularioCrearUsuario.php" class="btn btn-usuarios">Registro de Usuarios</a>
+            <a href="vista/login.php" class="btn btn-usuarios">Login</a>
         </div>
     </div>
 

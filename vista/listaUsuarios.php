@@ -103,6 +103,10 @@ $result = $conn->query("SELECT * FROM usuarios");
   </div>
   <div class="container-btn">
     <a class="btn-add" href="formularioCrearUsuario.php">➕ Registrar nuevo usuario</a>
+        <a class="btn-add" href="../index.php">&#8962; Inicio</a>
+  </div>
+    <div class="container-btn">
+
   </div>
 </body>
 </html>
