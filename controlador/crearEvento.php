@@ -1,31 +1,27 @@
 <?php
-include("../modelos/conexion.php");
+/* Validamos que sea un post para crear */
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    include_once '../modelo/conexion.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitización básica
-    $nombre = trim($_POST['nombre']);
-    $email = trim($_POST['email']);
-    $telefono = trim($_POST['telefono']);
-    $direccion = trim($_POST['direccion']);
+    /* Obtenemos los datos del formulario */
+    $titulo = $_POST['titulo'];
+    $descripcion = $_POST['descripcion'];
+    $fecha_hora = $_POST['fecha_hora'];
+    $lugar = $_POST['lugar'];
+    $capacidad_max = $_POST['capacidad_max'];
+    $precio_base = $_POST['precio_base'];
 
-    // Validar email
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        die("Correo inválido.");
-    }
+    // Sentencia preparada con MySQLi ($conn)
+    $stmt = $conn->prepare("INSERT INTO eventos (titulo, descripcion, fecha_hora, lugar, capacidad_max, precio_base) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssii", $titulo, $descripcion, $fecha_hora, $lugar, $capacidad_max, $precio_base);
 
-
-    // Usar consulta preparada
-    $stmt = $conn->prepare("INSERT INTO usuarios (nombre, email, telefono, direccion) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $nombre, $email, $telefono, $direccion);
-
+    /* Ejecutamos la sentencia y luego redirigimos a la lista */
     if ($stmt->execute()) {
-        header("Location: ../vistas/listaContactos.php");
+        header("Location: ../vista/listaEventos.php");
         exit();
     } else {
-        echo "Error al registrar: " . $stmt->error;
+        echo "Error al guardar el evento: " . $conn->error;
     }
-
     $stmt->close();
-    $conn->close();
 }
 ?>
