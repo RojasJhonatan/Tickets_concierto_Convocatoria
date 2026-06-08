@@ -1,8 +1,8 @@
 # Manual Técnico
 
-## 1. Instalación del Sistema
+# 1. Instalación del Sistema
 
-### Requisitos
+## Requisitos
 
 Para ejecutar el sistema se requiere:
 
@@ -12,11 +12,26 @@ Para ejecutar el sistema se requiere:
 - Navegador web moderno.
 - Sistema operativo Windows, Linux o macOS.
 
-### Instalación
+---
 
-1. Descargar e instalar XAMPP.
-2. Iniciar los servicios de Apache y MySQL desde el Panel de Control de XAMPP.
-3. Copiar la carpeta del proyecto:
+## Instalación
+
+### Paso 1
+
+Descargar e instalar XAMPP.
+
+### Paso 2
+
+Iniciar los servicios de:
+
+- Apache
+- MySQL
+
+desde el Panel de Control de XAMPP.
+
+### Paso 3
+
+Copiar la carpeta del proyecto:
 
 ```text
 TICKETS_CONCIERTO_CONVOCATORIA
@@ -34,31 +49,31 @@ La ruta final debe quedar:
 C:\xampp\htdocs\TICKETS_CONCIERTO_CONVOCATORIA
 ```
 
-4. Abrir phpMyAdmin:
+### Paso 4
+
+Abrir phpMyAdmin:
 
 ```text
 http://localhost/phpmyadmin
 ```
 
-5. Crear una base de datos llamada:
+### Paso 5
+
+Crear una base de datos llamada:
 
 ```sql
 MVC_Tickets_eventos
 ```
 
-6. Importar el archivo:
+### Paso 6
 
-```text
-db/base.sql
-```
-
-para generar automáticamente todas las tablas del sistema.
+Importar el archivo SQL del proyecto para generar automáticamente las tablas necesarias.
 
 ---
 
-## 2. Configuración del Entorno
+# 2. Configuración del Entorno
 
-### Configuración de la Base de Datos
+## Configuración de la Base de Datos
 
 La conexión se encuentra en:
 
@@ -76,19 +91,23 @@ $pass = "";
 $db = "MVC_Tickets_eventos";
 ```
 
-### Descripción de los Parámetros
+---
+
+## Descripción de los Parámetros
 
 | Parámetro | Descripción |
-|-----------|------------|
+|-----------|-------------|
 | host | Servidor de base de datos |
 | port | Puerto utilizado por MySQL |
 | user | Usuario de acceso |
 | pass | Contraseña del usuario |
 | db | Nombre de la base de datos |
 
-### Configuración del Puerto
+---
 
-El proyecto utiliza el puerto:
+## Configuración del Puerto
+
+El proyecto utiliza:
 
 ```php
 $port = 3307;
@@ -96,15 +115,15 @@ $port = 3307;
 
 Este valor puede variar según la configuración local de cada integrante.
 
-Por ejemplo:
+### Ejemplo
 
 | Integrante | Puerto |
 |------------|---------|
 | Javier | 3307 |
-| Tatan | 3330 |
+| Jhonatan | 3330 |
 | Dylan | 3306 |
 
-Si MySQL utiliza un puerto diferente, únicamente debe modificarse el valor de la variable:
+Si MySQL utiliza un puerto diferente, únicamente debe modificarse:
 
 ```php
 $port = 3307;
@@ -112,7 +131,9 @@ $port = 3307;
 
 por el puerto correspondiente.
 
-### Verificación del Puerto de MySQL
+---
+
+## Verificación del Puerto de MySQL
 
 Desde XAMPP:
 
@@ -139,31 +160,29 @@ modelo/conexion.php
 
 ---
 
-## 3. Dependencias
+# 3. Dependencias
 
-El proyecto utiliza:
+## Servidor Web
 
-### Servidor Web
+- Apache (incluido en XAMPP)
 
-- Apache (incluido en XAMPP).
+## Lenguaje de Programación
 
-### Lenguaje de Programación
+- PHP 8+
 
-- PHP.
+## Gestor de Base de Datos
 
-### Gestor de Base de Datos
+- MySQL
 
-- MySQL.
-
-### Librerías
+## Librerías
 
 No se utilizan librerías externas ni gestores de dependencias como Composer.
 
 ---
 
-## 4. Ejecución del Proyecto
+# 4. Ejecución del Proyecto
 
-### Paso 1
+## Paso 1
 
 Iniciar los servicios:
 
@@ -172,85 +191,130 @@ Iniciar los servicios:
 
 desde XAMPP.
 
-### Paso 2
+## Paso 2
 
-Abrir el navegador web.
+Abrir un navegador web.
 
-### Paso 3
+## Paso 3
 
 Ingresar la URL:
 
 ```text
-http://localhost/TICKETS_CONCIERTO_CONVOCATORIA/vista/index.php
+http://localhost/TICKETS_CONCIERTO_CONVOCATORIA/
 ```
 
-Si Apache utiliza otro puerto, por ejemplo 8080:
+Si Apache utiliza otro puerto:
 
 ```text
-http://localhost:8080/TICKETS_CONCIERTO_CONVOCATORIA/vista/index.php
+http://localhost:8080/TICKETS_CONCIERTO_CONVOCATORIA/
 ```
-
-### Paso 4
-
-Verificar que el sistema permita:
-
-- Registrar usuarios.
-- Crear eventos.
-- Crear tickets.
-- Actualizar información.
-- Eliminar registros.
-- Consultar listados de usuarios, eventos y tickets.
 
 ---
 
-## 5. Estructura del Proyecto
+## Paso 4
+
+Verificar el funcionamiento del sistema:
+
+### Como visitante
+
+- Consultar eventos disponibles.
+- Registrarse como cliente.
+- Iniciar sesión.
+
+### Como cliente
+
+- Consultar eventos.
+- Comprar tickets.
+- Consultar sus tickets adquiridos.
+- Cerrar sesión.
+
+### Como administrador
+
+- Gestionar eventos.
+- Gestionar usuarios.
+- Consultar tickets vendidos.
+- Registrar nuevos administradores.
+- Cerrar sesión.
+
+---
+
+# 5. Estructura del Proyecto
 
 ```text
 TICKETS_CONCIERTO_CONVOCATORIA
 │
 ├── controlador
 │   ├── actualizarEvento.php
-│   ├── actualizarTicket.php
-│   ├── actualizarUsuario.php
 │   ├── crearEvento.php
-│   ├── crearTicket.php
 │   ├── crearUsuario.php
 │   ├── eliminarEvento.php
-│   ├── eliminarTicket.php
-│   └── eliminarUsuario.php
+│   ├── eliminarUsuario.php
+│   ├── login.php
+│   ├── logout.php
+│   └── comprarTicket.php
 │
 ├── modelo
 │   └── conexion.php
 │
 ├── vista
-│   ├── index.php
-│   ├── formularioActualizarEvento.php
-│   ├── formularioActualizarTicket.php
 │   ├── formularioCrearEvento.php
-│   ├── formularioCrearTicket.php
 │   ├── formularioCrearUsuario.php
 │   ├── listaEventos.php
 │   ├── listaTickets.php
-│   └── listaUsuarios.php
+│   ├── listaUsuarios.php
+│   └── login.php
 │
-└── db
-    └── base.sql
+├── db
+│   └── base.sql
+│
+└── index.php
 ```
-
-### Descripción
-
-- **Modelo:** administra la conexión con la base de datos.
-- **Vista:** contiene las interfaces y formularios.
-- **Controlador:** procesa las operaciones CRUD.
-- **DB:** contiene el script SQL de creación de la base de datos.
 
 ---
 
-## 6. Arquitectura del Sistema
-
-El proyecto fue desarrollado utilizando el patrón de arquitectura **MVC (Modelo - Vista - Controlador)**, el cual permite separar la lógica de negocio, la interfaz de usuario y el acceso a los datos.
+## Descripción de Carpetas
 
 ### Modelo
+
+Contiene la conexión a la base de datos.
+
+```text
+modelo/
+```
+
+### Vista
+
+Contiene las interfaces visuales del sistema.
+
+```text
+vista/
+```
+
+### Controlador
+
+Contiene la lógica de negocio y las operaciones del sistema.
+
+```text
+controlador/
+```
+
+### DB
+
+Contiene los scripts SQL necesarios para la creación de la base de datos.
+
+```text
+db/
+```
+
+---
+
+# 6. Arquitectura del Sistema
+
+El proyecto fue desarrollado utilizando el patrón de arquitectura **MVC (Modelo - Vista - Controlador)**.
+
+---
+
+## Modelo
 
 Ubicación:
 
@@ -262,7 +326,7 @@ Responsabilidades:
 
 - Gestionar la conexión con la base de datos.
 - Ejecutar consultas SQL.
-- Manipular la información almacenada.
+- Manipular los datos almacenados.
 
 Archivo principal:
 
@@ -270,7 +334,9 @@ Archivo principal:
 conexion.php
 ```
 
-### Vista
+---
+
+## Vista
 
 Ubicación:
 
@@ -280,20 +346,24 @@ vista/
 
 Responsabilidades:
 
-- Mostrar formularios al usuario.
-- Presentar la información almacenada.
+- Mostrar formularios.
+- Mostrar eventos disponibles.
+- Mostrar usuarios registrados.
+- Mostrar tickets adquiridos.
 - Permitir la interacción con el sistema.
 
 Archivos principales:
 
 ```text
-index.php
-listaUsuarios.php
 listaEventos.php
+listaUsuarios.php
 listaTickets.php
+login.php
 ```
 
-### Controlador
+---
+
+## Controlador
 
 Ubicación:
 
@@ -304,18 +374,24 @@ controlador/
 Responsabilidades:
 
 - Procesar solicitudes enviadas por las vistas.
-- Validar datos.
-- Ejecutar operaciones CRUD.
-- Coordinar la comunicación entre vistas y base de datos.
+- Validar información.
+- Gestionar autenticación.
+- Gestionar compra de tickets.
+- Gestionar eventos y usuarios.
 
 Operaciones implementadas:
 
-- Crear registros.
-- Consultar registros.
-- Actualizar registros.
-- Eliminar registros.
+- Registro de usuarios.
+- Inicio y cierre de sesión.
+- Creación de eventos.
+- Edición de eventos.
+- Eliminación de eventos.
+- Compra de tickets.
+- Eliminación de usuarios.
 
-### Flujo de Funcionamiento
+---
+
+## Flujo General
 
 ```text
 Usuario
@@ -329,35 +405,102 @@ Modelo
 Base de Datos
 ```
 
-El usuario interactúa con las vistas, las cuales envían la información a los controladores. Los controladores procesan las solicitudes y utilizan el modelo para acceder a la base de datos. Finalmente, los resultados son enviados nuevamente a la vista para ser mostrados al usuario.
+El usuario interactúa con las vistas, las cuales envían la información a los controladores. Los controladores procesan las solicitudes y utilizan el modelo para acceder a la base de datos. Finalmente, los resultados son mostrados nuevamente al usuario.
 
 ---
 
-## 7. Tecnologías Utilizadas
+# 7. Tecnologías Utilizadas
 
 | Tecnología | Descripción |
-|------------|------------|
-| PHP | Lenguaje de programación del sistema |
-| MySQL | Sistema gestor de bases de datos |
+|------------|-------------|
+| PHP | Lógica del sistema |
+| MySQL | Base de datos |
 | Apache | Servidor web |
-| XAMPP | Entorno de desarrollo local |
-| HTML5 | Estructura de las páginas |
-| CSS3 | Diseño y estilos de la interfaz |
+| XAMPP | Entorno de desarrollo |
+| HTML5 | Estructura de páginas |
+| CSS3 | Diseño y estilos |
 | phpMyAdmin | Administración de la base de datos |
 
 ---
 
-## 8. Autores
+# 8. Roles del Sistema
+
+## Cliente
+
+Puede:
+
+- Registrarse.
+- Iniciar sesión.
+- Consultar eventos.
+- Comprar tickets.
+- Consultar sus tickets.
+
+No puede:
+
+- Crear eventos.
+- Eliminar eventos.
+- Gestionar usuarios.
+
+---
+
+## Administrador
+
+Puede:
+
+- Gestionar eventos.
+- Gestionar usuarios.
+- Registrar administradores.
+- Consultar tickets vendidos.
+- Eliminar usuarios.
+- Eliminar eventos.
+
+---
+
+# 9. Base de Datos
+
+El sistema está compuesto por tres tablas principales:
+
+### usuarios
+
+Almacena la información de los usuarios registrados.
+
+### eventos
+
+Almacena la información de los eventos disponibles.
+
+### tickets
+
+Almacena las compras realizadas por los usuarios.
+
+Relaciones:
+
+```text
+usuarios 1 ---- N tickets
+eventos  1 ---- N tickets
+```
+
+---
+
+# 10. Autores
 
 Proyecto desarrollado por:
 
 - Javier Alejandro Zapata Ramos
 - Jhonatan Mauricio Rojas Mosquera
-- Dylan Andrey Arboleda Garcia
+- Dylan Andrey Arboleda García
 
-### Información Académica
+---
 
-- Asignatura: Profundización de programación orientada a objetos
-- Proyecto: Convocatoria: Sistema de Compra, Venta y Gestión de Reserva de Tickets para Eventos
-- Semestre: 4
-- Año: 2026
+## Información Académica
+
+**Asignatura:** Profundización de Programación Orientada a Objetos
+
+**Proyecto:** Sistema Web MVC para Gestión de Eventos y Venta de Tickets
+
+**Descripción:**
+
+Sistema desarrollado bajo el patrón MVC que permite la administración de eventos y la venta de tickets. Los clientes pueden registrarse, iniciar sesión, consultar eventos disponibles y comprar tickets. Los administradores pueden gestionar eventos, usuarios y consultar los tickets vendidos.
+
+**Semestre:** 4
+
+**Año:** 2026
