@@ -114,22 +114,55 @@ $rol = $usuarioLogueado ? $_SESSION['rol'] : null;
 
         <div class="menu">
 
-            <?php if (!$usuarioLogueado): // Usuario sin iniciar sesión?>
-                <a href="vista/listaEventos.php" class="btn btn-eventos">Ver Eventos</a>
-                <a href="vista/formularioCrearUsuario.php" class="btn btn-usuarios">Registrarse</a>
-                <a href="vista/login.php" class="btn btn-tickets">Iniciar Sesión</a>
+        <!-- Si el usuario no está logueado -->
+            <?php if (!$usuarioLogueado): ?>
 
-            <?php elseif ($usuarioLogueado && $rol == 0 ): //Usuario Cliente?> 
-                <a href="vista/listaEventos.php" class="btn btn-eventos">Ver Eventos</a>
-                <a href="vista/listaTickets.php" class="btn btn-tickets">Gestionar Tickets</a>
-                <a href="controlador/logout.php" class="btn logout">Cerrar Sesión</a>
+                <a href="vista/listaEventos.php" class="btn btn-eventos">
+                    Ver Eventos
+                </a>
 
-            <?php else: //Usuario Administrador?> 
-                <a href="vista/listaEventos.php" class="btn btn-eventos">Gestionar Eventos</a>
-                <a href="vista/listaTickets.php" class="btn btn-tickets">Gestionar Tickets</a>
-                <a href="vista/formularioCrearUsuario.php" class="btn btn-usuarios">Registro de Usuarios</a>
-                <a href="controlador/logout.php" class="btn logout">Cerrar Sesión</a>
-                
+                <a href="vista/formularioCrearUsuario.php" class="btn btn-usuarios">
+                    Registrarse
+                </a>
+
+                <a href="vista/login.php" class="btn btn-tickets">
+                    Iniciar Sesión
+                </a>
+        
+        <!-- Si el usuario está logueado y es cliente -->
+            <?php elseif ($rol == 0): ?>
+
+                <a href="vista/listaEventos.php" class="btn btn-eventos">
+                    Ver Eventos
+                </a>
+
+                <a href="vista/listaTickets.php" class="btn btn-tickets">
+                    Mis Tickets
+                </a>
+
+                <a href="controlador/logout.php" class="btn logout">
+                    Cerrar Sesión
+                </a>
+
+        <!-- Si el usuario está logueado y es administrador -->
+            <?php elseif ($rol == 1): ?>
+
+                <a href="vista/listaEventos.php" class="btn btn-eventos">
+                    Gestionar Eventos
+                </a>
+
+                <a href="vista/listaTickets.php" class="btn btn-tickets">
+                    Gestionar Tickets
+                </a>
+
+                <a href="vista/listaUsuarios.php" class="btn btn-usuarios">
+                    Gestionar Usuarios
+                </a>
+
+                <a href="controlador/logout.php" class="btn logout">
+                    Cerrar Sesión
+                </a>
+
             <?php endif; ?>
 
         </div>
