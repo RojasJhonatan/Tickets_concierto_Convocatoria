@@ -1,187 +1,224 @@
 <?php
+session_start();
+
 include_once '../modelo/conexion.php';
 
-/* Verificar conexión */
-if (!isset($conn)) {
-    die("Error: La variable de conexión \$conn no está definida.");
-}
+/* Información de sesión */
+$usuarioLogueado = isset($_SESSION['rol']);
+$rol = $usuarioLogueado ? $_SESSION['rol'] : null;
 
-/* Consultar todos los eventos y almacenar el resultado */
+/* Obtener eventos */
 $resultado = $conn->query("SELECT * FROM eventos");
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Eventos</title>
+    <title>Eventos Registrados</title>
+
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #121212;
-            color: #f5f5f5;
+            font-family: Arial, sans-serif;
+            background: #121212;
+            color: #ffffff;
             margin: 0;
-            padding: 0;
+        }
+
+        .header {
+            background: #e50914;
+            padding: 20px;
             text-align: center;
         }
 
-        .header-banner {
-            background-color: #e50914; 
-            padding: 30px 20px;
-            margin-bottom: 10px;
-        }
-
-        .header-banner h2 {
-            margin: 0;
-            color: white;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .btn-add {
-            display: inline-block;
-            margin: 20px;
-            padding: 10px 18px;
-            background: #0095f6;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 14px;
-            font-weight: bold;
-            transition: background 0.2s;
-            border: none;
-            cursor: pointer;
-        }
-        .btn-add:hover {
-            background: #007acc;
-        }
-
-        .btn-delete {
-            display: inline-block;
-            padding: 8px 14px;
-            background: #ed4956;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 14px;
-            font-weight: bold;
-            transition: background 0.2s;
-            border: none;
-            cursor: pointer;
-        }
-        .btn-delete:hover {
-            background: #d11a2a;
-        }
-
-        .btn-edit {
-            display: inline-block;
-            padding: 8px 14px;
-            background: #363636;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 14px;
-            font-weight: bold;
-            transition: background 0.2s;
-            margin-right: 5px;
-        }
-        .btn-edit:hover {
-            background: #4a4a4a;
-        }
-
-        .table-container {
-            max-width: 95%;
-            margin: 0 auto;
-            padding: 0 20px 40px 20px;
+        .top {
+            text-align: center;
+            padding: 15px;
         }
 
         table {
-            width: 100%;
+            width: 95%;
+            margin: 20px auto;
             border-collapse: collapse;
-            background-color: #1e1e1e;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            background: #1e1e1e;
         }
 
-        th, td {
-            padding: 14px 16px;
-            text-align: left;
-            border-bottom: 1px solid #2d2d2d;
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #333;
+            text-align: center;
         }
 
         th {
-            background-color: #262626;
-            color: #a8a8a8;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            background: #262626;
         }
 
-        td {
-            color: #e1e1e1;
-            font-size: 15px;
+        .btn {
+            display: inline-block;
+            padding: 8px 12px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
         }
 
-        tr:hover td {
-            background-color: #252525;
+        .buy {
+            background: #28a745;
         }
 
-        .actions-cell {
-            white-space: nowrap;
+        .buy:hover {
+            background: #218838;
+        }
+
+        .edit {
+            background: #555;
+        }
+
+        .edit:hover {
+            background: #444;
+        }
+
+        .del {
+            background: #dc3545;
+        }
+
+        .del:hover {
+            background: #c82333;
+        }
+
+        .add {
+            background: #0095f6;
+        }
+
+        .add:hover {
+            background: #007acc;
         }
     </style>
 </head>
+
 <body>
 
-    <div class="header-banner">
+    <div class="header">
         <h2>Eventos Registrados</h2>
     </div>
 
-    <a href="formularioCrearEvento.php" class="btn-add">＋ Registrar nuevo evento</a>
+    <div class="top">
+        <a class="btn add" href="../index.php">
+            🏠 Inicio
+        </a>
 
-    <!-- Contenedor de la tabla -->
-    <div class="table-container">
-        <table>
-            <!-- Encabezados de la tabla -->
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Título</th>
-                    <th>Descripción</th>
-                    <th>Fecha y Hora</th>
-                    <th>Lugar</th>
-                    <th>Capacidad</th>
-                    <th>Precio</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <!-- Filas de la tabla -->
-            <tbody>
-                <!-- Si hay resultados -->
-                <?php if ($resultado): ?>
-                    <!-- Iterar sobre cada evento con la funcion fetch_assoc() -->
-                    <?php while ($evento = $resultado->fetch_assoc()): ?>
-                    <tr>
-                        <td><?php echo $evento['id']; ?></td>
-                        <td><strong><?php echo htmlspecialchars($evento['titulo']); ?></strong></td>
-                        <td><?php echo htmlspecialchars($evento['descripcion']); ?></td>
-                        <td><?php echo $evento['fecha_hora']; ?></td>
-                        <td><?php echo htmlspecialchars($evento['lugar']); ?></td>
-                        <td><?php echo $evento['capacidad_max']; ?></td>
-                        <td>$<?php echo $evento['precio_base']; ?></td>
-                        <td class="actions-cell">
-                            <a href="formularioActualizarEvento.php?id=<?php echo $evento['id']; ?>" class="btn-edit">Editar</a>
-                            <a href="../controlador/eliminarEvento.php?id=<?php echo $evento['id']; ?>" class="btn-delete" onclick="return confirm('¿Seguro que deseas eliminar este evento?')">Eliminar</a>
-                        </td>
-                    </tr>
-                    <?php endwhile; ?>
-                <!-- Si no hay resultados -->
-                <?php else: ?>
-                    <tr><td colspan="8">Error al cargar datos o tabla vacía.</td></tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
+        <?php if ($usuarioLogueado && $rol == 1): ?>
+            <a class="btn add" href="formularioCrearEvento.php">
+                ➕ Nuevo Evento
+            </a>
+        <?php endif; ?>
     </div>
 
+    <table>
+
+        <tr>
+            <th>Título</th>
+            <th>Fecha</th>
+            <th>Lugar</th>
+            <th>Capacidad</th>
+            <th>Vendidos</th>
+            <th>Disponibles</th>
+            <th>Precio</th>
+            <th>Acciones</th>
+        </tr>
+
+        <?php while ($evento = $resultado->fetch_assoc()): ?>
+
+            <?php
+            /* Contar tickets vendidos */
+            $consultaTickets = $conn->query(
+                "SELECT COUNT(*) AS cantidad
+                 FROM tickets
+                 WHERE evento_id = {$evento['id']}"
+            );
+
+            $ticketsVendidos = $consultaTickets->fetch_assoc()['cantidad'];
+            $disponibles = $evento['capacidad_max'] - $ticketsVendidos;
+            ?>
+
+            <tr>
+                <td>
+                    <?= htmlspecialchars($evento['titulo']) ?>
+                </td>
+
+                <td>
+                    <?= $evento['fecha_hora'] ?>
+                </td>
+
+                <td>
+                    <?= htmlspecialchars($evento['lugar']) ?>
+                </td>
+
+                <td>
+                    <?= $evento['capacidad_max'] ?>
+                </td>
+
+                <td>
+                    <?= $ticketsVendidos ?>
+                </td>
+
+                <td>
+                    <?= $disponibles ?>
+                </td>
+
+                <td>
+                    $<?= number_format($evento['precio_base']) ?>
+                </td>
+
+                <td>
+
+                    <?php if (!$usuarioLogueado): ?>
+
+                        Inicie sesión para comprar
+
+                    <?php elseif ($rol == 0): ?>
+
+                        <?php if ($disponibles > 0): ?>
+
+                            <a
+                                class="btn buy"
+                                href="../controlador/comprarTicket.php?evento_id=<?= $evento['id'] ?>">
+                                🎟 Comprar Ticket
+                            </a>
+
+                        <?php else: ?>
+
+                            ❌ Agotado
+
+                        <?php endif; ?>
+
+                    <?php else: ?>
+
+                        <a
+                            class="btn edit"
+                            href="formularioActualizarEvento.php?id=<?= $evento['id'] ?>">
+                            ✏️ Editar
+                        </a>
+
+                        <a
+                            class="btn del"
+                            href="../controlador/eliminarEvento.php?id=<?= $evento['id'] ?>"
+                            onclick="return confirm('¿Está seguro de eliminar este evento?')">
+                            🗑 Eliminar
+                        </a>
+
+                    <?php endif; ?>
+
+                </td>
+
+            </tr>
+
+        <?php endwhile; ?>
+
+    </table>
+
 </body>
+
 </html>

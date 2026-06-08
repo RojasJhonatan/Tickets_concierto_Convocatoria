@@ -1,14 +1,19 @@
 <?php
 session_start();
 
+/* Verificar sesión */
 if (!isset($_SESSION['id'])) {
-    header("Location: login.php");
+    header('Location: login.php');
     exit();
 }
 
 include_once '../modelo/conexion.php';
 
-$sql = "SELECT
+/* Administrador: ve todos los tickets */
+if ($_SESSION['rol'] == 1) {
+
+    $sql = "
+        SELECT
             t.id,
             t.codigo,
             t.estado,
@@ -18,131 +23,173 @@ $sql = "SELECT
         FROM tickets t
         INNER JOIN eventos e ON t.evento_id = e.id
         INNER JOIN usuarios u ON t.usuario_id = u.id
-        ORDER BY t.id DESC";
+        ORDER BY t.id DESC
+    ";
 
-$resultado = $conn->query($sql);
+    $resultado = $conn->query($sql);
+
+}
+/* Cliente: solo ve sus tickets */
+else {
+
+    $stmt = $conn->prepare("
+        SELECT
+            t.id,
+            t.codigo,
+            t.estado,
+            t.fecha_compra,
+            e.titulo AS evento
+        FROM tickets t
+        INNER JOIN eventos e ON t.evento_id = e.id
+        WHERE t.usuario_id = ?
+        ORDER BY t.id DESC
+    ");
+
+    $stmt->bind_param("i", $_SESSION['id']);
+    $stmt->execute();
+
+    $resultado = $stmt->get_result();
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<title>Lista de Tickets</title>
+    <meta charset="UTF-8">
+    <title>Tickets</title>
 
-<style>
-body{
-    font-family: Arial;
-    background:#f4f4f4;
-    padding:20px;
-}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #121212;
+            color: #ffffff;
+            margin: 0;
+        }
 
-table{
-    width:100%;
-    border-collapse:collapse;
-    background:white;
-}
+        .header {
+            background: #e50914;
+            padding: 20px;
+            text-align: center;
+        }
 
-th,td{
-    border:1px solid #ddd;
-    padding:10px;
-    text-align:center;
-}
+        .header h2 {
+            margin: 0;
+        }
 
-th{
-    background:#007bff;
-    color:white;
-}
+        .top {
+            text-align: center;
+            padding: 20px;
+        }
 
-a{
-    text-decoration:none;
-}
+        table {
+            width: 95%;
+            margin: 0 auto 30px auto;
+            border-collapse: collapse;
+            background: #1e1e1e;
+        }
 
-.btn{
-    padding:8px 12px;
-    border-radius:5px;
-    color:white;
-}
+        th,
+        td {
+            border: 1px solid #333;
+            padding: 12px;
+            text-align: center;
+        }
 
-.crear{
-    background:#28a745;
-}
+        th {
+            background: #262626;
+        }
 
-.editar{
-    background:#ffc107;
-    color:black;
-}
+        tr:hover {
+            background: #252525;
+        }
 
-.eliminar{
-    background:#dc3545;
-}
+        .btn {
+            display: inline-block;
+            padding: 10px 14px;
+            background: #0095f6;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
 
-.volver{
-    background:#17a2b8;
-}
-</style>
+        .btn:hover {
+            background: #007acc;
+        }
 
+        .estado-pagado {
+            color: #28a745;
+            font-weight: bold;
+        }
+    </style>
 </head>
+
 <body>
 
-<h2>Listado de Tickets</h2>
+    <div class="header">
+        <h2>
+            <?= ($_SESSION['rol'] == 1) ? '🎟 Tickets Vendidos' : '🎫 Mis Tickets'; ?>
+        </h2>
+    </div>
 
-<br>
+    <div class="top">
+        <a class="btn" href="../index.php">
+            🏠 Volver al Inicio
+        </a>
+    </div>
 
-<a href="formularioCrearTicket.php" class="btn crear">
-Crear Ticket
-</a>
+    <table>
 
-<a href="../index.php" class="btn volver">
-Volver
-</a>
+        <tr>
+            <th>ID</th>
+            <th>Evento</th>
 
-<br><br>
+            <?php if ($_SESSION['rol'] == 1): ?>
+                <th>Usuario</th>
+            <?php endif; ?>
 
-<table>
+            <th>Código</th>
+            <th>Estado</th>
+            <th>Fecha de Compra</th>
+        </tr>
 
-<tr>
-<th>ID</th>
-<th>Evento</th>
-<th>Usuario</th>
-<th>Código</th>
-<th>Estado</th>
-<th>Fecha Compra</th>
-<th>Acciones</th>
-</tr>
+        <?php while ($fila = $resultado->fetch_assoc()): ?>
 
-<?php while($fila = $resultado->fetch_assoc()){ ?>
+            <tr>
 
-<tr>
+                <td>
+                    <?= $fila['id'] ?>
+                </td>
 
-<td><?= $fila['id'] ?></td>
-<td><?= $fila['evento'] ?></td>
-<td><?= $fila['usuario'] ?></td>
-<td><?= $fila['codigo'] ?></td>
-<td><?= $fila['estado'] ?></td>
-<td><?= $fila['fecha_compra'] ?></td>
+                <td>
+                    <?= htmlspecialchars($fila['evento']) ?>
+                </td>
 
-<td>
+                <?php if ($_SESSION['rol'] == 1): ?>
+                    <td>
+                        <?= htmlspecialchars($fila['usuario']) ?>
+                    </td>
+                <?php endif; ?>
 
-<a
-class="btn editar"
-href="formularioActualizarTicket.php?id=<?= $fila['id'] ?>">
-Editar
-</a>
+                <td>
+                    <?= htmlspecialchars($fila['codigo']) ?>
+                </td>
 
-<a
-class="btn eliminar"
-onclick="return confirm('¿Eliminar ticket?')"
-href="../controlador/eliminarTicket.php?id=<?= $fila['id'] ?>">
-Eliminar
-</a>
+                <td class="estado-pagado">
+                    <?= htmlspecialchars($fila['estado']) ?>
+                </td>
 
-</td>
+                <td>
+                    <?= $fila['fecha_compra'] ?>
+                </td>
 
-</tr>
+            </tr>
 
-<?php } ?>
+        <?php endwhile; ?>
 
-</table>
+    </table>
 
 </body>
+
 </html>

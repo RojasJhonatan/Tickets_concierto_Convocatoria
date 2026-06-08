@@ -171,7 +171,13 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
 
             <div class="form-group">
                 <label for="fecha_hora">Fecha y Hora:</label>
-                <input type="datetime-local" id="fecha_hora" name="fecha_hora" required>
+                <input
+                    type="datetime-local"
+                    id="fecha_hora"
+                    name="fecha_hora"
+                    min="<?= date('Y-m-d\TH:i') ?>"
+                    required
+                >
             </div>
 
             <div class="form-group">
@@ -190,8 +196,17 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
             </div>
 
             <div class="btn-group">
-                <a href="listaEventos.php" class="btn-delete">Cancelar</a>
-                <button type="submit" class="btn-add">Guardar Evento</button>
+                <a href="../index.php" class="btn-home">
+                    ⬅ Inicio
+                </a>
+
+                <a href="listaEventos.php" class="btn-delete">
+                    Cancelar
+                </a>
+
+                <button type="submit" class="btn-add">
+                    Guardar Evento
+                </button>
             </div>
         </form>
     </div>
