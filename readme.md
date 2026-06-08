@@ -353,7 +353,7 @@ Proyecto desarrollado por:
 
 - Javier Alejandro Zapata Ramos
 - Jhonatan Mauricio Rojas Mosquera
-- Dylan Andrey Arboleda ???
+- Dylan Andrey Arboleda Garcia
 
 ### Información Académica
 
