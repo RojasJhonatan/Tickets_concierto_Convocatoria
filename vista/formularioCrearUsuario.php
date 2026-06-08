@@ -1,3 +1,9 @@
+<?php
+session_start();
+$usuarioLogueado = isset($_SESSION['rol']);
+$rol = $usuarioLogueado ? $_SESSION['rol'] : null;
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -145,6 +151,15 @@
                 <label>Dirección</label>
                 <input type="text" name="direccion" placeholder="calle # ..-.." required>
             </div>
+
+            <?php if (!$usuarioLogueado): ?>
+                <label>Rol</label>
+
+                <label>
+                    <input type="radio" name="rol" value="0" checked disabled>
+                    Cliente
+                </label>
+            <?php else: ?>
             <div class="form-group">
                 <label>Rol</label>
 
@@ -157,6 +172,8 @@
                     Administrador
                 </label>
             </div>
+            <?php endif; ?>
+            
 
             <div class="btn-group">
                 <button type="submit" class="btn-add">Ingresar Contacto</button>

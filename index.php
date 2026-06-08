@@ -1,10 +1,7 @@
 <?php
 session_start();
-
-if (!isset($_SESSION['id'])) {
-    header("Location: vista/login.php");
-    exit();
-}
+$usuarioLogueado = isset($_SESSION['rol']);
+$rol = $usuarioLogueado ? $_SESSION['rol'] : null;
 ?>
 
 <!DOCTYPE html>
@@ -19,13 +16,14 @@ if (!isset($_SESSION['id'])) {
             font-family: Arial, sans-serif;
             text-align: center;
             margin-top: 50px;
-            background-color: #f9f9f9;
+            background-color: #121212;
         }
 
         .container {
             max-width: 600px;
             margin: 0 auto;
-            background: white;
+            background: black;
+            color: white;
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
@@ -75,7 +73,8 @@ if (!isset($_SESSION['id'])) {
         .bienvenida {
             margin-bottom: 20px;
             padding: 10px;
-            background: #e9f7ef;
+            background: #121212;
+            color: #fff;
             border-radius: 5px;
         }
 
@@ -93,6 +92,7 @@ if (!isset($_SESSION['id'])) {
 
     <div class="container">
 
+    <?php if ($usuarioLogueado && $rol == 1): // 1 = Administrador ?>
         <div class="bienvenida">
             <h3>
                 Bienvenido,
@@ -102,10 +102,11 @@ if (!isset($_SESSION['id'])) {
             <p>
                 Rol:
                 <strong>
-                    <?php echo htmlspecialchars($_SESSION['rol']); ?>
+                    <?php echo ($_SESSION['rol']==1)?'Administrador' : 'Cliente'; ?>
                 </strong>
             </p>
         </div>
+        <?php endif; ?>
 
         <h1>🎟️ Sistema de Gestión de Conciertos</h1>
 
@@ -113,9 +114,13 @@ if (!isset($_SESSION['id'])) {
 
         <div class="menu">
 
-            <a href="vista/listaEventos.php" class="btn btn-eventos">
-                Gestionar Eventos
-            </a>
+            <?php if (!$usuarioLogueado): ?>
+                <a href="vista/listaEventos.php" class="btn btn-eventos">Ver Eventos</a>
+            <?php else: ?>
+                <a href="vista/listaEventos.php" class="btn btn-eventos">Gestionar Eventos</a>
+            <?php endif; ?>
+
+            <?php if ($usuarioLogueado && $rol == 1): // 1 = Administrador ?>
 
             <a href="vista/listaTickets.php" class="btn btn-tickets">
                 Gestionar Tickets
@@ -124,10 +129,13 @@ if (!isset($_SESSION['id'])) {
             <a href="vista/formularioCrearUsuario.php" class="btn btn-usuarios">
                 Registro de Usuarios
             </a>
+            <?php endif; ?>
+            <?php if (!$usuarioLogueado): ?>
+                <a href="vista/login.php" class="btn btn-tickets">Iniciar Sesión</a>
+            <?php else: ?>
+                <a href="controlador/logout.php" class="btn logout">Cerrar Sesión</a>
+            <?php endif; ?>
 
-            <a href="controlador/logout.php" class="btn logout">
-                Cerrar Sesión
-            </a>
 
         </div>
 

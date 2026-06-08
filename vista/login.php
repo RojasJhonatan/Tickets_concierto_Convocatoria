@@ -137,7 +137,7 @@
             
             <div class="btn-group">
                 <button type="submit" class="btn-add">Login</button>
-                <a href="index.php" class="btn-delete">&#8962;Inicio</a>
+                <a href="../index.php" class="btn-delete">&#8962;Inicio</a>
             </div>
             </form>
         </div>
