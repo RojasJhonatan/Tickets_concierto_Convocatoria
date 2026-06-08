@@ -102,7 +102,7 @@ Por ejemplo:
 |------------|---------|
 | Javier | 3307 |
 | Tatan | 3330 |
-| Dylan | Configurar según su instalación |
+| Dylan | 3306 |
 
 Si MySQL utiliza un puerto diferente, únicamente debe modificarse el valor de la variable:
 
@@ -353,7 +353,7 @@ Proyecto desarrollado por:
 
 - Javier Alejandro Zapata Ramos
 - Jhonatan Mauricio Rojas Mosquera
-- Dylan Andrey Arboleda ???
+- Dylan Andrey Arboleda Garcia
 
 ### Información Académica
 
