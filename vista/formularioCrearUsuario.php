@@ -1,8 +1,10 @@
 <?php
 session_start();
+
 $usuarioLogueado = isset($_SESSION['rol']);
 $rol = $usuarioLogueado ? $_SESSION['rol'] : null;
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
