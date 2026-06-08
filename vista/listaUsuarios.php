@@ -1,6 +1,15 @@
 <?php
-include("../modelo/conexion.php");
-$result = $conn->query("SELECT * FROM usuarios");
+  // Autenticación
+  session_start();
+
+  if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
+      header("Location: ../index.php");
+      exit();
+  }
+
+  include("../modelo/conexion.php");
+
+  $result = $conn->query("SELECT * FROM usuarios");
 ?>
 
 <!DOCTYPE html>
@@ -48,7 +57,7 @@ $result = $conn->query("SELECT * FROM usuarios");
       width: 90%;
       max-width: 1000px;
       margin-bottom: 40px;
-    
+      margin: 40px auto; /* Centré el formulario att: Javier */
     }
     .container-btn {
         display: flex;
@@ -92,12 +101,19 @@ $result = $conn->query("SELECT * FROM usuarios");
     <div class="user-list">
     <?php while ($fila = $result->fetch_assoc()) { ?>
       <div class="card">
+        <p><strong>ID:</strong> <?= $fila['id'] ?></p> <!-- Agregué el id tatan att: Javier -->
         <h3><?= htmlspecialchars($fila['nombre']) ?></h3>
         <p><?= htmlspecialchars($fila['telefono']) ?></p>
         <p><?= htmlspecialchars($fila['email']) ?></p>
         <p><?= htmlspecialchars($fila['direccion']) ?></p>
         <p><?= ($fila['rol'] == 1) ? 'Administrador' : 'Cliente'; ?></p>
-        <a class="btn-delete" href="../controlador/eliminarUsuario.php?id=<?= $fila['id'] ?>">Eliminar</a>
+        <?php if ($fila['id'] != $_SESSION['id']) : ?>
+           <a class="btn-delete"
+            href="../controlador/eliminarUsuario.php?id=<?= $fila['id'] ?>"
+            onclick="return confirm('¿Está seguro de eliminar este usuario?')"> <!-- Tambien la confirmación la puse jeje -->
+            Eliminar
+          </a>
+        <?php endif; ?> <!-- Agregué la condición para que no se pueda eliminar uno mismo Att: Javier -->
       </div>
     <?php } ?>
   </div>

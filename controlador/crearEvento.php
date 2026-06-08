@@ -1,5 +1,11 @@
 <?php
-/* Validamos que sea un post para crear */
+session_start();
+
+if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
+    header("Location: ../index.php");
+    exit();
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     include_once '../modelo/conexion.php';
 

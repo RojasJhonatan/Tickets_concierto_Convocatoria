@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Usar consulta preparada
     $stmt = $conn->prepare("INSERT INTO usuarios (nombre, telefono, email, password, direccion, rol) VALUES (?, ?, ?, ?, ?,?)");
-    $stmt->bind_param("ssssss", $nombre, $telefono, $email, $passwordHash, $direccion, $rol);
+    $stmt->bind_param("sssssi", $nombre, $telefono, $email, $passwordHash, $direccion, $rol);
 
 
     if ($stmt->execute()) {

@@ -127,6 +127,24 @@ $rol = $usuarioLogueado ? $_SESSION['rol'] : null;
         .btn-delete:hover {
             background: #d11a2a;
         }
+
+        .btn-home {
+            flex: 1;
+            display: inline-block;
+            padding: 12px;
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background 0.2s;
+            text-align: center;
+        }
+
+        .btn-home:hover {
+            background: #5a6268;
+        }
     </style>
 </head>
 <body>
@@ -155,13 +173,18 @@ $rol = $usuarioLogueado ? $_SESSION['rol'] : null;
             </div>
 
             <?php if (!$usuarioLogueado): ?>
-                <label>Rol</label>
+                <div class="form-group">
+                    <label>Rol</label>
 
-                <label>
-                    <input type="radio" name="rol" value="0" checked disabled>
-                    Cliente
-                </label>
-            <?php else: ?>
+                    <input type="hidden" name="rol" value="0">
+
+                    <label>
+                        <small>
+                            Los usuarios registrados desde esta página serán creados como clientes. <!-- Un externo siempre será registrado como cliente -->
+                        </small>
+                    </label>
+                </div>
+            <?php elseif ($rol == 1): ?> <!-- No cualquiera puede crear usuarios administradores att: Javier -->
             <div class="form-group">
                 <label>Rol</label>
 
@@ -178,9 +201,19 @@ $rol = $usuarioLogueado ? $_SESSION['rol'] : null;
             
 
             <div class="btn-group">
-                <button type="submit" class="btn-add">Ingresar Contacto</button>
-                <a href="listaUsuarios.php" class="btn-delete">Consultar Contactos</a>
+                <button type="submit" class="btn-add"> <!-- Le quité la opción de ver los usuarios registrados a un cliente por seguridad tatan att: Javier -->
+                    Registrar Usuario
+                </button>
 
+                <?php if ($usuarioLogueado && $rol == 1): ?> <!-- Si es admin si los puede ver -->
+                    <a href="listaUsuarios.php" class="btn-delete">
+                        Consultar Usuarios
+                    </a>
+                <?php endif; ?>
+
+                <a href="../index.php" class="btn-home">
+                    ⬅ Volver al Inicio
+                </a>
             </div>
             </form>
         </div>

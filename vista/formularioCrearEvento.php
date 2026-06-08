@@ -1,7 +1,8 @@
 <?php
 session_start();
-if (!isset($_SESSION['id'])) {
-    header("Location: vista/login.php");
+
+if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
+    header("Location: ../index.php");
     exit();
 }
 ?>
@@ -131,6 +132,24 @@ if (!isset($_SESSION['id'])) {
         .btn-delete:hover {
             background: #d11a2a;
         }
+
+        .btn-home {
+            flex: 1;
+            display: inline-block;
+            padding: 12px;
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background 0.2s;
+            text-align: center;
+        }
+
+        .btn-home:hover {
+            background: #5a6268;
+        }
     </style>
 </head>
 <body>
@@ -152,7 +171,13 @@ if (!isset($_SESSION['id'])) {
 
             <div class="form-group">
                 <label for="fecha_hora">Fecha y Hora:</label>
-                <input type="datetime-local" id="fecha_hora" name="fecha_hora" required>
+                <input
+                    type="datetime-local"
+                    id="fecha_hora"
+                    name="fecha_hora"
+                    min="<?= date('Y-m-d\TH:i') ?>"
+                    required
+                >
             </div>
 
             <div class="form-group">
@@ -171,8 +196,17 @@ if (!isset($_SESSION['id'])) {
             </div>
 
             <div class="btn-group">
-                <a href="listaEventos.php" class="btn-delete">Cancelar</a>
-                <button type="submit" class="btn-add">Guardar Evento</button>
+                <a href="../index.php" class="btn-home">
+                    ⬅ Inicio
+                </a>
+
+                <a href="listaEventos.php" class="btn-delete">
+                    Cancelar
+                </a>
+
+                <button type="submit" class="btn-add">
+                    Guardar Evento
+                </button>
             </div>
         </form>
     </div>
