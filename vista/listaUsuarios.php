@@ -113,6 +113,10 @@
             onclick="return confirm('¿Está seguro de eliminar este usuario?')"> <!-- Tambien la confirmación la puse jeje -->
             Eliminar
           </a>
+           <a class="btn-add"
+            href="formularioActualizarUsuario.php?id=<?= $fila['id'] ?>">
+            Actualizar
+          </a>
         <?php endif; ?> <!-- Agregué la condición para que no se pueda eliminar uno mismo Att: Javier -->
       </div>
     <?php } ?>

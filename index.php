@@ -140,6 +140,10 @@ $rol = $usuarioLogueado ? $_SESSION['rol'] : null;
                     Mis Tickets
                 </a>
 
+                <a href="vista/formularioActualizarUsuario.php" class="btn btn-usuarios">
+                    Actualizar Datos 
+                </a>
+
                 <a href="controlador/logout.php" class="btn logout">
                     Cerrar Sesión
                 </a>

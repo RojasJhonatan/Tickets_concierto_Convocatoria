@@ -122,6 +122,22 @@ else {
             color: #28a745;
             font-weight: bold;
         }
+        
+        .btn-delete {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 14px;
+            background: #ed4956;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background 0.2s;
+            }
+            .btn-delete:hover {
+            background: #d11a2a;
+            }
     </style>
 </head>
 
@@ -152,6 +168,10 @@ else {
             <th>Código</th>
             <th>Estado</th>
             <th>Fecha de Compra</th>
+            <?php if ($_SESSION['rol'] == 1): ?>
+                <th>Eliminar Ticket</th>
+            <?php endif; ?>           
+            
         </tr>
 
         <?php while ($fila = $resultado->fetch_assoc()): ?>
@@ -183,6 +203,18 @@ else {
                 <td>
                     <?= $fila['fecha_compra'] ?>
                 </td>
+
+                <?php if ($_SESSION['rol'] == 1): ?>
+                <td>
+                    <a class="btn-delete"
+                        href="../controlador/eliminarTicket.php?id=<?= $fila['id'] ?>"
+                        onclick="return confirm('¿Está seguro de eliminar este Ticket?')"> <!-- Tambien la confirmación la puse jeje -->
+                        Eliminar
+                    </a>
+                </td>
+                <?php endif; ?> 
+
+
 
             </tr>
 
