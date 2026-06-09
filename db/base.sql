@@ -28,7 +28,7 @@ CREATE TABLE tickets(
     id INT AUTO_INCREMENT PRIMARY KEY,
     evento_id INT NOT NULL,
     usuario_id INT NOT NULL,
-    codigo INT NOT NULL UNIQUE,
+    codigo VARCHAR NOT NULL UNIQUE,
     fecha_compra TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     estado VARCHAR(20) DEFAULT "pagado",
     FOREIGN KEY (evento_id) REFERENCES eventos(id)
