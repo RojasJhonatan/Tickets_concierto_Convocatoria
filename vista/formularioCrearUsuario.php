@@ -10,7 +10,7 @@ $rol = $usuarioLogueado ? $_SESSION['rol'] : null;
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Ingreso de Contacto</title>
+  <title>Ingreso de Usuario</title>
 <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;

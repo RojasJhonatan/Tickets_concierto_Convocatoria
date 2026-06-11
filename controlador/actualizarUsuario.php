@@ -35,12 +35,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Encriptar contraseña
     $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
+    /* Preparar la consulta de actualización */
     $stmt = $conn->prepare(
         "UPDATE usuarios
          SET nombre=?, telefono=?, email=?, password = ?, direccion=?, rol=?
          WHERE id=?"
     );
 
+    /* Vincular parámetros */
     $stmt->bind_param(
         "ssssssi",
         $nombre,
